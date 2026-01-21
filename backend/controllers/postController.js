@@ -34,11 +34,12 @@ exports.getPostById = async (req, res) => {
 // Create new post (protected)
 exports.createPost = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { title, content, image } = req.body;
 
         const newPost = new Post({
             title,
             content,
+            image,
             author: req.user.userId
         });
 
@@ -57,7 +58,7 @@ exports.createPost = async (req, res) => {
 // Update post (protected)
 exports.updatePost = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { title, content, image } = req.body;
         const post = await Post.findById(req.params.id);
 
         if (!post) {
@@ -71,6 +72,9 @@ exports.updatePost = async (req, res) => {
 
         post.title = title || post.title;
         post.content = content || post.content;
+        if (typeof image === 'string') {
+            post.image = image;
+        }
 
         await post.save();
         await post.populate('author', 'username email');

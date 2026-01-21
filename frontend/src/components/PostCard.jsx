@@ -26,6 +26,13 @@ const PostCard = ({ post, onDelete }) => {
                         x
                     </button>
                 )}
+                {post.image && (
+                    <img
+                        src={post.image}
+                        alt={post.title}
+                        className="mb-4 h-48 w-full rounded-lg object-cover border border-gray-100"
+                    />
+                )}
                 <h2 className="text-2xl font-bold text-gray-800 mb-3 hover:text-purple-600 transition">
                     {post.title}
                 </h2>

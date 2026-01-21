@@ -172,6 +172,16 @@ const PostDetails = () => {
                                 </div>
                             </div>
 
+                            {post.image && (
+                                <div className="mb-8">
+                                    <img
+                                        src={post.image}
+                                        alt={post.title}
+                                        className="w-full max-h-[28rem] object-cover rounded-xl border border-gray-200"
+                                    />
+                                </div>
+                            )}
+
                             <div className="prose max-w-none mb-8">
                                 <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
                                     {post.content}
