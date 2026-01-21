@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { user, isAuthenticated, logout } = useAuth();
+    const location = useLocation();
+
+    if (location.pathname === '/') {
+        return null;
+    }
 
     return (
         <nav className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">

@@ -17,10 +17,12 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
+        const avatarUrl = `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(username)}`;
         const newUser = new User({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            avatar: avatarUrl
         });
 
         await newUser.save();
@@ -38,7 +40,8 @@ exports.register = async (req, res) => {
             user: {
                 id: newUser._id,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                avatar: newUser.avatar
             }
         });
     } catch (error) {
@@ -76,7 +79,8 @@ exports.login = async (req, res) => {
             user: {
                 id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                avatar: user.avatar
             }
         });
     } catch (error) {

@@ -4,7 +4,7 @@ const Post = require('../models/Post');
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate('author', 'username email')
+            .populate('author', 'username email avatar')
             .populate('comments.user', 'username')
             .sort({ createdAt: -1 });
 
@@ -18,7 +18,7 @@ exports.getAllPosts = async (req, res) => {
 exports.getPostById = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
-            .populate('author', 'username email')
+            .populate('author', 'username email avatar')
             .populate('comments.user', 'username');
 
         if (!post) {
@@ -44,7 +44,7 @@ exports.createPost = async (req, res) => {
         });
 
         await newPost.save();
-        await newPost.populate('author', 'username email');
+        await newPost.populate('author', 'username email avatar');
 
         res.status(201).json({
             message: "Post created successfully",
@@ -77,7 +77,7 @@ exports.updatePost = async (req, res) => {
         }
 
         await post.save();
-        await post.populate('author', 'username email');
+        await post.populate('author', 'username email avatar');
 
         res.json({
             message: "Post updated successfully",
@@ -173,7 +173,7 @@ exports.addComment = async (req, res) => {
 exports.getUserPosts = async (req, res) => {
     try {
         const posts = await Post.find({ author: req.user.userId })
-            .populate('author', 'username email')
+            .populate('author', 'username email avatar')
             .sort({ createdAt: -1 });
 
         res.json({ posts });
@@ -186,7 +186,7 @@ exports.getUserPosts = async (req, res) => {
 exports.getLikedPosts = async (req, res) => {
     try {
         const posts = await Post.find({ likes: req.user.userId })
-            .populate('author', 'username email')
+            .populate('author', 'username email avatar')
             .sort({ createdAt: -1 });
 
         res.json({ posts });
