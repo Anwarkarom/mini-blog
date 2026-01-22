@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import PostCard from '../components/PostCard';
 
@@ -10,6 +10,7 @@ const Home = () => {
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const normalizedSearch = search.trim().toLowerCase();
     const filteredPosts = normalizedSearch
@@ -55,6 +56,12 @@ const Home = () => {
 
         fetchPosts();
     }, []);
+
+    useEffect(() => {
+        if (location.state?.openSearch) {
+            setShowSearch(true);
+        }
+    }, [location.state]);
 
     if (loading) {
         return (
@@ -102,6 +109,15 @@ const Home = () => {
                             <path d="M12 5v14M5 12h14" />
                         </svg>
                     </button>
+                    <Link
+                        to="/dashboard"
+                        className="h-11 w-11 rounded-xl flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition"
+                        aria-label="Dashboard"
+                    >
+                        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+                            <path d="M3 12h8V3H3v9zM13 21h8v-6h-8v6zM13 3h8v8h-8V3zM3 21h8v-6H3v6z" />
+                        </svg>
+                    </Link>
                     <Link
                         to="/dashboard"
                         className="h-11 w-11 rounded-xl flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition"
